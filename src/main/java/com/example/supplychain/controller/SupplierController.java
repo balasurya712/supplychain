@@ -32,36 +32,68 @@ public class SupplierController {
     //create and save the Supplier
     @PostMapping("/save")
     public String insertSupplier(@RequestBody Supplier supplier) {
-        service.saveData(supplier);
-        return "Inserted Successfully";
+        try {
+            service.saveData(supplier);
+            return "Inserted Successfully";
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "Internal error";
+        }
     }
     
 
     //select all Supplier
     @GetMapping("/select/all")
     public List<Supplier> selectAll() {
-        return service.getAllSupplier();
+        try {
+            return service.getAllSupplier();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
     //select Supplier by id;
     @GetMapping("/select/{id}")
     public Supplier selectById(@PathVariable("id")String id){
-        return service.getById(id);
+        try {
+            return service.getById(id);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
     //update the Supplier;
     @PutMapping("update")
     public String updateSupplier(@RequestBody Supplier supplier) {
-        service.updateData(supplier); 
-        return "Updated Successfully";
+        try {
+            service.updateData(supplier); 
+            return "Updated Successfully";
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "Internal error";
+        }
     }
 
     @DeleteMapping("delete/{id}")
     public String deleteSupplier(@PathVariable String id)
     {
-        service.deleteData(id);
-        return "Deleted Successfully";
+        try {
+            if(service.getById(id)==null)
+            service.deleteData(id);
+            else return "Id not found";
+            return "Deleted Successfully";
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "Internal error";
+        }
     }
 }

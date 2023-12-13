@@ -32,37 +32,69 @@ public class StyleController {
     //create and save the style
     @PostMapping("/save")
     public String insertStyle(@RequestBody Style style) {
-        service.saveData(style);
-        return "Inserted Successfully";
+        try {
+            service.saveData(style);
+            return "Inserted Successfully";
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "Internal error";
+        }
     }
     
 
     //select all style
     @GetMapping("/select/all")
     public List<Style> selectAll() {
-        return service.getAllStyle();
+        try {
+            return service.getAllStyle();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
     //select style by id;
     @GetMapping("/select/{id}")
     public Style selectById(@PathVariable("id")String id){
-        return service.getById(id);
+        try {
+            return service.getById(id);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
     //update the style;
     @PutMapping("update")
     public String updateStyle(@RequestBody Style style) {
-        service.updateStyle(style); 
-        return "Updated Successfully";
+        try {
+            service.updateStyle(style); 
+            return "Updated Successfully";
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "Internal error";
+        }
     }
 
     @DeleteMapping("delete/{id}")
     public String deleteStyle(@PathVariable String id)
     {
-        service.deleteData(id);
-        return "Deleted Successfully";
+        try {
+            if(service.getById(id)==null)
+            service.deleteData(id);
+            else return "Id not found";
+            return "Deleted Successfully";
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "Internal error";
+        }
     }
 
 

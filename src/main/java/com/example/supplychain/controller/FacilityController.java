@@ -31,37 +31,70 @@ public class FacilityController {
     //create and save the Facility
     @PostMapping("/save")
     public String insertFacility(@RequestBody Facility facility) {
-        service.saveData(facility);
-        return "Inserted Successfully";
+        try {
+            service.saveData(facility);
+            return "Inserted Successfully";
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "Internal error";
+        }
     }
     
 
     //select all Facility
     @GetMapping("/select/all")
     public List<Facility> selectAll() {
-        return service.getAllFacility();
+        try {
+            return service.getAllFacility();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
     //select Facility by id;
     @GetMapping("/select/{id}")
     public Facility selectById(@PathVariable("id")String id){
-        return service.getById(id);
+        try {
+            return service.getById(id);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
     //update the Facility;
     @PutMapping("update")
     public String updateFacility(@RequestBody Facility facility) {
-        service.updateFacility(facility); 
-        return "Updated Successfully";
+        try {
+            service.updateFacility(facility); 
+            return "Updated Successfully";
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "Internal error";
+        }
     }
 
     @DeleteMapping("delete/{id}")
     public String deleteFacility(@PathVariable String id)
     {
-        service.deleteData(id);
-        return "Deleted Successfully";
+        try {
+            if(service.getById(id)==null)
+            service.deleteData(id);
+            else return "Id not found";
+            return "Deleted Successfully";
+            
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "Internal error";
+        }
     }
 
 

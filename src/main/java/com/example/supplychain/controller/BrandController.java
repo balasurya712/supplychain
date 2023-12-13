@@ -31,36 +31,69 @@ public class BrandController {
     //create and save the Brand
     @PostMapping("/save")
     public String insertBrand(@RequestBody Brand brand) {
-        service.saveData(brand);
-        return "Inserted Successfully";
+        try {
+            
+            service.saveData(brand);
+            return "Inserted Successfully";
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "internal error";
+        }
     }
     
 
     //select all Brand
     @GetMapping("/select/all")
     public List<Brand> selectAll() {
-        return service.getAllBrand();
+        try {
+            return service.getAllBrand();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
     //select Brand by id;
     @GetMapping("/select/{id}")
     public Brand selectById(@PathVariable("id")String id){
-        return service.getById(id);
+        try {
+            return service.getById(id);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
     //update the Brand;
     @PutMapping("update")
     public String updateBrand(@RequestBody Brand brand) {
-        service.updateBrand(brand); 
-        return "Updated Successfully";
+        try {
+            service.updateBrand(brand); 
+            return "Updated Successfully";
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "Internal error";
+        }
     }
 
     @DeleteMapping("delete/{id}")
     public String deleteBrand(@PathVariable String id)
     {
-        service.deleteData(id);
-        return "Deleted Successfully";
+        try {
+            if(service.getById(id)==null)
+            service.deleteData(id);
+            else return"Id not found";
+            return "Deleted Successfully";
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "Internal error";
+        }
     }
 }

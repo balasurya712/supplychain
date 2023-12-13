@@ -34,38 +34,69 @@ public class RawMaterialController {
     //create and save the RawMaterial
     @PostMapping("/save")
     public String insertSupplier(@RequestBody RawMaterial rawMaterial) {
-        System.out.println(rawMaterial);
-        service.saveData(rawMaterial);
-        return "Inserted Successfully";
+        try {
+            service.saveData(rawMaterial);
+            return "Inserted Successfully";
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "Internal error";
+        }
     }
     
 
     //select all Supplier
     @GetMapping("/select/all")
     public List<RawMaterial> selectAll() {
-        return service.getAllRawMaterial();
+        try {
+            return service.getAllRawMaterial();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
     //select RawMaterial by id;
     @GetMapping("/select/{id}")
     public RawMaterial selectById(@PathVariable("id")String id){
-        return service.getById(id);
+        try {
+            return service.getById(id);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
     //update the RawMaterial;
     @PutMapping("update")
     public String updateSupplier(@RequestBody RawMaterial rawMaterial) {
-        service.updateData(rawMaterial); 
-        return "Updated Successfully";
+        try {
+            service.updateData(rawMaterial); 
+            return "Updated Successfully";
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "Internal error";
+        }
     }
 
     @DeleteMapping("delete/{id}")
     public String deleteSupplier(@PathVariable String id)
     {
-        service.deleteData(id);
-        return "Deleted Successfully";
+        try {
+            if(service.getById(id)==null)
+            service.deleteData(id);
+            else return "Id not found";
+            return "Deleted Successfully";
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "Internal error";
+        }
     }
 
 }
