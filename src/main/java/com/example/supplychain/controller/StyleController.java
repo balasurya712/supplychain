@@ -3,6 +3,8 @@ package com.example.supplychain.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,69 +33,69 @@ public class StyleController {
 
     //create and save the style
     @PostMapping("/save")
-    public String insertStyle(@RequestBody Style style) {
+    public ResponseEntity<String> insertStyle(@RequestBody Style style) {
         try {
             service.saveData(style);
-            return "Inserted Successfully";
+            return new ResponseEntity<String>( "Inserted Successfully",HttpStatus.OK);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return "Internal error";
+            return new ResponseEntity<String>( "Internal error",HttpStatus.BAD_REQUEST);
         }
     }
     
 
     //select all style
     @GetMapping("/select/all")
-    public List<Style> selectAll() {
+    public ResponseEntity<List<Style>> selectAll() {
         try {
-            return service.getAllStyle();
+            return new ResponseEntity<List<Style>>( service.getAllStyle(),HttpStatus.OK);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return null;
+            return new ResponseEntity<>( null,HttpStatus.BAD_REQUEST);
         }
     }
 
 
     //select style by id;
     @GetMapping("/select/{id}")
-    public Style selectById(@PathVariable("id")String id){
+    public ResponseEntity<Style> selectById(@PathVariable("id")String id){
         try {
-            return service.getById(id);
+            return new ResponseEntity<Style>( service.getById(id),HttpStatus.OK);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return null;
+            return new ResponseEntity<>( null,HttpStatus.BAD_REQUEST);
         }
     }
 
 
     //update the style;
     @PutMapping("update")
-    public String updateStyle(@RequestBody Style style) {
+    public ResponseEntity<String> updateStyle(@RequestBody Style style) {
         try {
             service.updateStyle(style); 
-            return "Updated Successfully";
+            return new ResponseEntity<String>( "Updated Successfully",HttpStatus.OK);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return "Internal error";
+            return new ResponseEntity<String>( "Internal error",HttpStatus.BAD_REQUEST);
         }
     }
 
     @DeleteMapping("delete/{id}")
-    public String deleteStyle(@PathVariable String id)
+    public ResponseEntity<String> deleteStyle(@PathVariable String id)
     {
         try {
             if(service.getById(id)==null)
             service.deleteData(id);
-            else return "Id not found";
-            return "Deleted Successfully";
+            else return new ResponseEntity<String>( "Id not found",HttpStatus.NOT_FOUND);
+            return new ResponseEntity<String>( "Deleted Successfully",HttpStatus.OK);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return "Internal error";
+            return new ResponseEntity<String>( "Internal error",HttpStatus.BAD_REQUEST);
         }
     }
 

@@ -8,6 +8,8 @@ import com.example.supplychain.service.RawMaterialServiceInterface;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,69 +35,69 @@ public class RawMaterialController {
 
     //create and save the RawMaterial
     @PostMapping("/save")
-    public String insertSupplier(@RequestBody RawMaterial rawMaterial) {
+    public ResponseEntity<String> insertSupplier(@RequestBody RawMaterial rawMaterial) {
         try {
             service.saveData(rawMaterial);
-            return "Inserted Successfully";
+            return new ResponseEntity<String>( "Inserted Successfully",HttpStatus.OK); 
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return "Internal error";
+            return new ResponseEntity<String>( "Internal error",HttpStatus.BAD_REQUEST);
         }
     }
     
 
     //select all Supplier
     @GetMapping("/select/all")
-    public List<RawMaterial> selectAll() {
+    public ResponseEntity<List<RawMaterial>> selectAll() {
         try {
-            return service.getAllRawMaterial();
+            return  new ResponseEntity<List<RawMaterial>>( service.getAllRawMaterial(),HttpStatus.OK);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return null;
+            return new ResponseEntity<>( null,HttpStatus.BAD_REQUEST);
         }
     }
 
 
     //select RawMaterial by id;
     @GetMapping("/select/{id}")
-    public RawMaterial selectById(@PathVariable("id")String id){
+    public ResponseEntity<RawMaterial> selectById(@PathVariable("id")String id){
         try {
-            return service.getById(id);
+            return new ResponseEntity<RawMaterial>( service.getById(id),HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return null;
+            return new ResponseEntity<>( null,HttpStatus.BAD_REQUEST);
         }
     }
 
 
     //update the RawMaterial;
     @PutMapping("update")
-    public String updateSupplier(@RequestBody RawMaterial rawMaterial) {
+    public ResponseEntity<String> updateSupplier(@RequestBody RawMaterial rawMaterial) {
         try {
             service.updateData(rawMaterial); 
-            return "Updated Successfully";
+            return new ResponseEntity<String>( "Updated Successfully",HttpStatus.OK);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return "Internal error";
+            return new ResponseEntity<String>( "Internal error",HttpStatus.BAD_REQUEST);
         }
     }
 
     @DeleteMapping("delete/{id}")
-    public String deleteSupplier(@PathVariable String id)
+    public ResponseEntity<String> deleteSupplier(@PathVariable String id)
     {
         try {
             if(service.getById(id)==null)
             service.deleteData(id);
-            else return "Id not found";
-            return "Deleted Successfully";
+            else return new ResponseEntity<String>( "Id not found",HttpStatus.NOT_FOUND);
+            return new ResponseEntity<String>( "Deleted Successfully",HttpStatus.OK);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return "Internal error";
+            return new ResponseEntity<String>( "Internal error",HttpStatus.BAD_REQUEST);
         }
     }
 

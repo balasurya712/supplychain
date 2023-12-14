@@ -3,6 +3,9 @@ package com.example.supplychain.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,76 +27,76 @@ public class BrandController {
 
     //write crud operations here
     @GetMapping("/hello")
-    public String get() {
-        return "Hello World!";
+    public ResponseEntity<String> get() {
+        return new ResponseEntity<String>("Hello World!",HttpStatus.OK);
     }
 
     //create and save the Brand
     @PostMapping("/save")
-    public String insertBrand(@RequestBody Brand brand) {
+    public ResponseEntity<String> insertBrand(@RequestBody Brand brand) {
         try {
             
             service.saveData(brand);
-            return "Inserted Successfully";
+             return new ResponseEntity<String>("Inserted Successfully",HttpStatus.OK);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return "internal error";
+            return new ResponseEntity<String>("internal error",HttpStatus.BAD_REQUEST);
         }
     }
     
 
     //select all Brand
     @GetMapping("/select/all")
-    public List<Brand> selectAll() {
+    public ResponseEntity<List<Brand>> selectAll() {
         try {
-            return service.getAllBrand();
+            return new ResponseEntity<List<Brand>>(service.getAllBrand(),HttpStatus.OK);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return null;
+            return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
         }
     }
 
 
     //select Brand by id;
     @GetMapping("/select/{id}")
-    public Brand selectById(@PathVariable("id")String id){
+    public ResponseEntity<Brand> selectById(@PathVariable("id")String id){
         try {
-            return service.getById(id);
+            return new ResponseEntity<Brand>(service.getById(id),HttpStatus.OK);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return null;
+            return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
         }
     }
 
 
     //update the Brand;
     @PutMapping("update")
-    public String updateBrand(@RequestBody Brand brand) {
+    public ResponseEntity<String> updateBrand(@RequestBody Brand brand) {
         try {
             service.updateBrand(brand); 
-            return "Updated Successfully";
+            return new ResponseEntity<String>("Updated Successfully",HttpStatus.OK);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return "Internal error";
+             return new ResponseEntity<String>("Internal error",HttpStatus.BAD_REQUEST);
         }
     }
 
     @DeleteMapping("delete/{id}")
-    public String deleteBrand(@PathVariable String id)
+    public ResponseEntity<String> deleteBrand(@PathVariable String id)
     {
         try {
             if(service.getById(id)==null)
             service.deleteData(id);
-            else return"Id not found";
-            return "Deleted Successfully";
+            else return new ResponseEntity<String>("Id not found",HttpStatus.OK);
+            return new ResponseEntity<String>("Deleted Successfully",HttpStatus.OK);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return "Internal error";
+            return new ResponseEntity<String>("Internal error",HttpStatus.BAD_REQUEST);
         }
     }
 }

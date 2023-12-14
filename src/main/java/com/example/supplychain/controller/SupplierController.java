@@ -3,6 +3,8 @@ package com.example.supplychain.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,69 +33,69 @@ public class SupplierController {
 
     //create and save the Supplier
     @PostMapping("/save")
-    public String insertSupplier(@RequestBody Supplier supplier) {
+    public ResponseEntity<String> insertSupplier(@RequestBody Supplier supplier) {
         try {
             service.saveData(supplier);
-            return "Inserted Successfully";
+            return new ResponseEntity<String>("Inserted Successfully",HttpStatus.OK);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return "Internal error";
+            return new ResponseEntity<String>("Internal error",HttpStatus.BAD_REQUEST);
         }
     }
     
 
     //select all Supplier
     @GetMapping("/select/all")
-    public List<Supplier> selectAll() {
+    public ResponseEntity<List<Supplier>> selectAll() {
         try {
-            return service.getAllSupplier();
+            return new ResponseEntity<List<Supplier>>( service.getAllSupplier(),HttpStatus.OK);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return null;
+            return new ResponseEntity<>( null,HttpStatus.BAD_REQUEST);
         }
     }
 
 
     //select Supplier by id;
     @GetMapping("/select/{id}")
-    public Supplier selectById(@PathVariable("id")String id){
+    public ResponseEntity<Supplier> selectById(@PathVariable("id")String id){
         try {
-            return service.getById(id);
+            return new ResponseEntity<Supplier>( service.getById(id),HttpStatus.OK);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return null;
+            return new ResponseEntity<>( null,HttpStatus.BAD_REQUEST);
         }
     }
 
 
     //update the Supplier;
     @PutMapping("update")
-    public String updateSupplier(@RequestBody Supplier supplier) {
+    public ResponseEntity<String> updateSupplier(@RequestBody Supplier supplier) {
         try {
             service.updateData(supplier); 
-            return "Updated Successfully";
+            return new ResponseEntity<String>( "Updated Successfully",HttpStatus.OK);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return "Internal error";
+            return new ResponseEntity<String>( "Internal error",HttpStatus.BAD_REQUEST);
         }
     }
 
     @DeleteMapping("delete/{id}")
-    public String deleteSupplier(@PathVariable String id)
+    public ResponseEntity<String> deleteSupplier(@PathVariable String id)
     {
         try {
             if(service.getById(id)==null)
             service.deleteData(id);
-            else return "Id not found";
-            return "Deleted Successfully";
+            else return new ResponseEntity<String>( "Id not found",HttpStatus.NOT_FOUND);
+            return  new ResponseEntity<String>( "Deleted Successfully",HttpStatus.OK);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return "Internal error";
+           return new ResponseEntity<String>( "Internal error",HttpStatus.BAD_REQUEST);
         }
     }
 }
