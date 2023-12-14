@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,13 +17,15 @@ import org.bson.types.ObjectId;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Facility {
     
     @Id
     private String _id;
     private String facilityName;
     private Address facilityAddress;
-    private ObjectId supplierId;
+    @DocumentReference(collection = "supplier")
+    private Supplier supplierId;
     private ArrayList<String> certifications;
 
     @Data

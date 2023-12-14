@@ -3,6 +3,7 @@ package com.example.supplychain.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,13 +26,16 @@ public class RawMaterial {
     private String rawMaterialNumber;
     private String rawMaterialUniqueId;
     private String rawMaterialType;
-    private ObjectId facilityId;
+    @DocumentReference(collection = "facility")
+    private Facility facilityId;
     private ArrayList<MaterialComposition> materialComposition;
     private ArrayList<String> Certificates;
     private ObjectId brandId;
     private ArrayList<ObjectId> baseMaterialId;
 
     @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
     private class MaterialComposition{
         private String material;
         private float percentage;

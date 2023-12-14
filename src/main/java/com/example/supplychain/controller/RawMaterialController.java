@@ -64,7 +64,7 @@ public class RawMaterialController {
     @GetMapping("/select/{id}")
     public ResponseEntity<RawMaterial> selectById(@PathVariable("id")String id){
         try {
-            return new ResponseEntity<RawMaterial>( service.getById(id),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<RawMaterial>( service.getById(id),HttpStatus.OK);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
