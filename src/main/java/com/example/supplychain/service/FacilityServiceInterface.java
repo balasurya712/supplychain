@@ -14,7 +14,7 @@ public interface FacilityServiceInterface {
 
     void updateFacility(Facility facility);
 
-    void deleteData(String id);
+    Boolean deleteData(String id);
 
 
 }

@@ -30,17 +30,9 @@ public class RawMaterial {
     private Facility facilityId;
     private ArrayList<MaterialComposition> materialComposition;
     private ArrayList<String> Certificates;
-    private ObjectId brandId;
     private ArrayList<ObjectId> baseMaterialId;
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    private class MaterialComposition{
-        private String material;
-        private float percentage;
-
-    }
+    
 
 
 }

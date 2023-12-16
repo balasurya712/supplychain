@@ -38,8 +38,9 @@ public class FacilityService implements FacilityServiceInterface{
     }
 
     @Override
-    public void deleteData(String id) {
+    public Boolean deleteData(String id) {
         repo.deleteById(id);
+        return true;
     }
 
 }

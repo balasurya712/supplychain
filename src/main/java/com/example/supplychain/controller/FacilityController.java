@@ -61,7 +61,11 @@ public class FacilityController {
     @GetMapping("/select/{id}")
     public ResponseEntity<Facility> selectById(@PathVariable("id")String id){
         try {
+            if(service.getById(id).equals(null))
+            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+            else
             return new ResponseEntity<Facility>( service.getById(id),HttpStatus.OK);
+            
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -84,18 +88,18 @@ public class FacilityController {
     }
 
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<String> deleteFacility(@PathVariable String id)
+    public ResponseEntity<Boolean> deleteFacility(@PathVariable String id)
     {
         try {
-            if(service.getById(id)==null)
-            service.deleteData(id);
-            else return new ResponseEntity<String>("Id not found",HttpStatus.NOT_FOUND) ;
-            return new ResponseEntity<String>("Deleted Successfully",HttpStatus.OK);
+            if(service.getById(id)!=null)
+            return new ResponseEntity<>(service.deleteData(id),HttpStatus.OK);
+            else return new ResponseEntity<>(false,HttpStatus.NOT_FOUND) ;
+            
             
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return new ResponseEntity<String>("Internal error",HttpStatus.BAD_REQUEST) ;
+            return new ResponseEntity<>(false,HttpStatus.BAD_REQUEST) ;
         }
     }
 

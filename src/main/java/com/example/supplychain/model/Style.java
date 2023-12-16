@@ -1,5 +1,7 @@
 package com.example.supplychain.model;
 
+import java.util.ArrayList;
+
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -21,7 +23,9 @@ public class Style {
     private String styleType;
     @DocumentReference(collection = "facility")
     private Facility facilityId;
-    private String materialComposition;
+    private ArrayList<MaterialComposition> materialComposition;
     private String Certificates;
+    @DocumentReference(collection = "brand")
+    private Brand brand;
 
 }

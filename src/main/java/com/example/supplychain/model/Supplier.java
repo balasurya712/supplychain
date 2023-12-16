@@ -24,12 +24,5 @@ public class Supplier {
     private String rawMaterial;
     private String styles;
 
-    @Data
-    public class Address{
-		private String street;
-        private String city;
-        private String pincode;
-		private String state;
-		private String country;
-	}
+   
 }

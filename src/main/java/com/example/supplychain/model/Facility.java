@@ -28,12 +28,6 @@ public class Facility {
     private Supplier supplierId;
     private ArrayList<String> certifications;
 
-    @Data
-    public class Address{
-		private String street;
-        private String city;
-        private String pincode;
-		private String state;
-		private String country;
-	}
+    
 }
+
